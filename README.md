@@ -26,6 +26,7 @@ Modul ini digunakan untuk memetakan status seluruh jabatan secara otomatis berda
   - `mbstring`
   - `json`
   - `zip` (Wajib diaktifkan untuk fungsionalitas membaca dan membuat berkas Excel dengan PhpSpreadsheet).
+  - `gd` (Opsional, direkomendasikan untuk manipulasi gambar jika diperlukan).
 
 ## Panduan Instalasi (Setup)
 
@@ -45,7 +46,28 @@ Modul ini digunakan untuk memetakan status seluruh jabatan secara otomatis berda
    composer install
    ```
 
-4. **Pengaturan Lingkungan (Environment):**
+4. **Konfigurasi `php.ini` (Penting untuk XAMPP/Localhost):**
+   Buka file konfigurasi `php.ini` Anda (jika menggunakan XAMPP, biasanya di `xampp/php/php.ini`).
+   
+   **a. Aktifkan Ekstensi PHP**
+   Cari baris berikut dan hilangkan tanda titik koma (`;`) di awalnya untuk mengaktifkannya:
+   ```ini
+   extension=gd
+   extension=intl
+   extension=mbstring
+   extension=zip
+   ```
+   *(Catatan: Ekstensi `json` biasanya sudah aktif secara bawaan pada PHP 8+)*
+
+   **b. Ubah Batas Maksimal Upload File**
+   Agar aplikasi dapat mengunggah file Excel dengan ukuran yang cukup besar, cari dan ubah nilai berikut (misal ditingkatkan menjadi `50M`):
+   ```ini
+   upload_max_filesize = 50M
+   post_max_size = 50M
+   ```
+   Setelah mengubah dan menyimpan `php.ini`, pastikan untuk **merestart Apache / Web Server** Anda.
+
+5. **Pengaturan Lingkungan (Environment):**
    - Salin file `env` menjadi `.env`.
    - Ubah konfigurasi untuk mengaktifkan *development mode*:
      ```env
@@ -56,7 +78,7 @@ Modul ini digunakan untuk memetakan status seluruh jabatan secara otomatis berda
      app.baseURL = 'http://localhost/manajementalenta/public/'
      ```
 
-5. **Akses Aplikasi:**
+6. **Akses Aplikasi:**
    Buka browser dan akses melalui URL yang Anda tentukan di atas. Contoh:
    `http://localhost/manajementalenta/public/`
 
